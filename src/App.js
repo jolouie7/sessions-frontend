@@ -44,6 +44,7 @@
 
 import React, { Component } from 'react';
 import './App.css';
+import SignUp from './components/SignUp';
 
 class App extends Component {
 
@@ -117,7 +118,7 @@ class App extends Component {
     console.log(this.state.messages);
     return (
       <div className="App">
-        <h1>Messages</h1>
+        <SignUp />
         <ul>
           {this.state.messages.length > 0 &&
             this.state.messages.map(message => {
