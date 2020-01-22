@@ -47,7 +47,7 @@ import './App.css';
 
 class App extends Component {
 
-  constructor() {
+  constructor(props) {
     super()
     this.socket = undefined;
     this.state = {
