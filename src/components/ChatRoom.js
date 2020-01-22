@@ -1,3 +1,4 @@
+// ----------------------------Top level component----------------------------
 import React, { Component } from 'react'
 
 class ChatRoom extends Component {
@@ -7,6 +8,13 @@ class ChatRoom extends Component {
       messages: [],
       message: ""
     }
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:3000/sessions")
+      .then(response => response.json())
+      // .then(json => json.forEach(message => this.setState({messages: this.state.messages.concat(message.text)})))
+      .then(json => console.log(json))
   }
 
   addMessage = (e) => {
@@ -20,7 +28,7 @@ class ChatRoom extends Component {
       message: ""
     })
     // post request to the server
-    fetch('http://localhost:3000/messages', {
+    fetch('http://localhost:3000/sessions', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -34,16 +42,8 @@ class ChatRoom extends Component {
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(err => console.log(err));
-
-    
-      
   }
 
-  componentDidMount(){
-    fetch("http://localhost:3000/messages")
-    .then(response => response.json())
-    .then(json => json.forEach(message => this.setState({messages: this.state.messages.concat(message.text)})))
-  }
 
   
 
