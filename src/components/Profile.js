@@ -4,29 +4,44 @@ class Profile extends Component {
   constructor(props) {
     super();
     this.state = {
-
+      currentUser: {}
     }
   }
 
   componentDidMount(){
-  
-    if (localStorage.getItem("jwt") === null) {
+  const token = localStorage.getItem("jwt")
+    if (token === null) {
       this.props.history.push('/Login');
-    } 
+    } else {
+      fetch('http://localhost:3000/profile', {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+            Accept: 'application/json',
+           Authorization: `Bearer ${token}`
+        },
+
+
+      })
+      .then(response => response.json())
+      .then(json => { this.setState({currentUser: json.user.data.attributes})
+
+      })
+    }
       
   }
   
   render() {
-    const currentUser = this.props.currentUser
+    
     
     return (
       <div>
       
        <center>
-        <h3>{currentUser.name}</h3>
-         <h3>{currentUser.username}</h3>
-        <h3>{currentUser.bio}</h3>
-         <h3>{currentUser.location}</h3>
+        <h3>{this.state.currentUser.name}</h3>
+         <h3>{this.state.currentUser.username}</h3>
+        <h3>{this.state.currentUser.bio}</h3>
+         <h3>{this.state.currentUser.location}</h3>
         <button>Edit</button>
         <button>Delete</button>
         </center>

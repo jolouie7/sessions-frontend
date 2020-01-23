@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Navbar from './components/Navbar'
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './components/Home'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
@@ -24,14 +24,19 @@ class App extends Component {
     this.setState({currentUser: currentUser})
   }
 
+  handleLogout = () =>{
+    localStorage.clear("jwt")
+    this.setState({currentUser: {}})
+  }
+
 
 
   render(){
     return (
       <div>
-       <Navbar currentUser={this.state.currentUser}/>
+       <Navbar currentUser={this.state.currentUser} logOut={this.handleLogout}/>
        <Switch>
-       
+       <Route  exact path="/" component={Home}/>
        <Route path="/SignUp" render={routerProps => {
          return(
            <SignUp {...routerProps} handleLogin={this.handleLogin}/>
@@ -44,14 +49,15 @@ class App extends Component {
               <Login {...routerProps} handleLogin={this.handleLogin}/> 
                 );
                 }}/>
-        
+        {
+          Object.keys(this.state.currentUser).length !== 0 ? 
         <Route 
            path="/Profile" render={routerProps => {
             return(
               <Profile {...routerProps} currentUser={this.state.currentUser} />
             )
-          }}/>
-          <Route path="/" component={Home}/>
+            }}/> : <Redirect to="/Login"/> }
+          
        </Switch>
       
      
