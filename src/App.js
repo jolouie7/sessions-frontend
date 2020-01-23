@@ -45,6 +45,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import SignUp from './components/SignUp';
+import Conversation from "./components/Conversation"
 
 class App extends Component {
 
@@ -67,7 +68,7 @@ class App extends Component {
       let msg = {
         command: 'subscribe',
         identifier: JSON.stringify({
-          channel: "MessagesChannel"
+          channel: "MessageChannel"
         })
       };
       this.socket.send(JSON.stringify(msg))
@@ -77,13 +78,14 @@ class App extends Component {
       // build out a proper conditional statement that differentiates between
       // true messages and bullshit
       const data = JSON.parse(event.data);
-      console.log(data.message);
+      // console.log(data.message);
+      console.log(data);
       if (data.message === undefined || data.message.message === undefined) {
         // changed data.type = "confirm_subscription" to data.type === "confirm_subscription"
       } else if (data.type === 'confirm_subscription' && !this.state.connected && this.socket) {
         this.socket.send(JSON.stringify({
           "command": "message",
-          "identifier": JSON.stringify({ channel: 'MessagesChannel' }),
+          "identifier": JSON.stringify({ channel: 'MessageChannel' }),
           "data": JSON.stringify({
             message: 'hello-server',
             action: 'sync_reading'
@@ -119,6 +121,8 @@ class App extends Component {
     return (
       <div className="App">
         <SignUp />
+        <Conversation />
+
         <ul>
           {this.state.messages.length > 0 &&
             this.state.messages.map(message => {
