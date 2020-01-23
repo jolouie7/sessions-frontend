@@ -74,7 +74,7 @@ class App extends Component {
       this.socket.send(JSON.stringify(msg))
     }
 
-    this.socket.addEventListener('message', (event) => {
+    this.socket.onmessage = (event) => {
       // build out a proper conditional statement that differentiates between
       // true messages and bullshit
       const data = JSON.parse(event.data);
@@ -83,6 +83,7 @@ class App extends Component {
       if (data.message === undefined || data.message.message === undefined) {
         // changed data.type = "confirm_subscription" to data.type === "confirm_subscription"
       } else if (data.type === 'confirm_subscription' && !this.state.connected && this.socket) {
+        console.log('I"m first')
         this.socket.send(JSON.stringify({
           "command": "message",
           "identifier": JSON.stringify({ channel: 'MessageChannel' }),
@@ -96,32 +97,31 @@ class App extends Component {
         //   messages: [...this.state.messages, event.data]
         // })
       } else if (data.message.user_facing === true) {
-        console.log(data.message.message);
-        this.setState({
-          messages: [...this.state.messages, data.message.message]
+        
+        this.setState((prevState) => {
+          return {messages: [...prevState.messages, data.message.message]}
         })
 
       }
-    });
+    };
   }
 
   componentDidMount() {
     this.openWsConnection();
-    fetch('http://localhost:3000/messages')
-      .then(res => res.json())
-      .then(messages => {
-        this.setState({
-          messages: messages
-        })
-      })
+    // fetch('http://localhost:3000/messages')
+    //   .then(res => res.json())
+    //   .then(messages => {
+    //     this.setState({
+    //       messages: messages
+    //     })
+    //   })
   }
 
   render() {
-    console.log(this.state.messages);
     return (
       <div className="App">
         <SignUp />
-        <Conversation />
+        <Conversation messages={this.state.messages}/>
 
         <ul>
           {this.state.messages.length > 0 &&

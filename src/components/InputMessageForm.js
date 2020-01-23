@@ -19,6 +19,7 @@ class InputMessageForm extends Component {
   render() {
     return (
       <div>
+        <h3>asd</h3>
         <form onSubmit={this.props.handleSubmit}>
           <input value={this.props.message} onChange={this.props.changeMessage}></input>
           <input type="submit"></input>

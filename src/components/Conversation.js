@@ -8,7 +8,6 @@ class Conversation extends Component {
   constructor(props) {
     super();
     this.state = {
-      messages: ["hi", "hello", "how are you", "good"],
       message: ""
     }
   }
@@ -19,6 +18,17 @@ class Conversation extends Component {
     this.setState({message: e.target.value})
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevState)
+  //   console.log(prevProps)
+  //   let message = this.state.message;
+  //   if(prevState.messages !== this.state.messages) {
+  //     this.setState((prevState) => ({
+  //       messages: [...prevState.messages, message]
+  //     }))
+  //   }
+  // }
+
   // addToMessageList = (message) => {
   //   // e.preventDefault();
   //   console.log(message)
@@ -27,15 +37,8 @@ class Conversation extends Component {
   //   }));
   // }
   handleSubmit = (e) => {
-    e.preventDefault()
-    console.log("from parent handleSubmit")
-    console.log(e)
-    this.setState(prevState => {
-        return {
-          messages: [...prevState.messages, prevState.message]
-        }
-    })
-    fetch(`${API_ROOT}/messages`, {
+    e.preventDefault();
+    fetch(API_ROOT + "/messages", {
       method: "POST",
       headers: HEADERS,
       body: JSON.stringify({
@@ -44,8 +47,14 @@ class Conversation extends Component {
         conversation_id: 1
       })
     })
-    .then(res => res.json())
-    .then(json => console.log(json))
+    
+    // console.log("from parent handleSubmit")
+    // console.log(e)
+    // this.setState(prevState => {
+    //   return {
+    //     messages: [...this.props.messages, prevState.message]
+    //   }
+    // })
   }
 
   handleReceived(message) {
@@ -61,13 +70,10 @@ class Conversation extends Component {
       <div>
         {/* get all the messages in conversation and pass them into message component. */}
         {/* message component will render the messages */}
-        {this.state.messages.map(message => <Message message={message}/>)}
-        <form>
-          <InputMessageForm m={this.state.message} 
-          handleSubmit={this.handleSubmit} 
-          changeMessage={this.changeMessage} 
-          messageInput={this.state.messageInput}/>
-        </form>
+        {this.props.messages.map(message => <Message message={message}/>)}
+        <InputMessageForm message={this.state.message} 
+        handleSubmit={this.handleSubmit} 
+        changeMessage={this.changeMessage}/>
         {/* <ActionCableConsumer
           channel="message_channel"
           onReceived={this.handleReceived}
