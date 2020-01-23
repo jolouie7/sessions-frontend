@@ -76,10 +76,10 @@ class App extends Component {
 
     this.socket.onmessage = (event) => {
       // build out a proper conditional statement that differentiates between
-      // true messages and bullshit
+      // true messages
       const data = JSON.parse(event.data);
       // console.log(data.message);
-      console.log(data);
+      // console.log(data);
       if (data.message === undefined || data.message.message === undefined) {
         // changed data.type = "confirm_subscription" to data.type === "confirm_subscription"
       } else if (data.type === 'confirm_subscription' && !this.state.connected && this.socket) {
@@ -123,12 +123,12 @@ class App extends Component {
         <SignUp />
         <Conversation messages={this.state.messages}/>
 
-        <ul>
+        {/* <ul>
           {this.state.messages.length > 0 &&
             this.state.messages.map(message => {
               return <li>{message.content}</li>
             })}
-        </ul>
+        </ul> */}
       </div>
     );
   }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Message from "./Message";
 import InputMessageForm from './InputMessageForm';
-import { ActionCableConsumer } from 'react-actioncable-provider';
-import { API_ROOT, API_WS_ROOT, HEADERS } from "../constants/index 2"
+// import { ActionCableConsumer } from 'react-actioncable-provider';
+import { API_ROOT, HEADERS } from "../constants/index 2"
 
 class Conversation extends Component {
   constructor(props) {

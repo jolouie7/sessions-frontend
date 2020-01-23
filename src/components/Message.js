@@ -9,8 +9,6 @@ class Message extends Component {
       <div>
         {/* This component should probably use a callback function */}
         {/* use the input to update state in Conversation Component */}
-        <h3>jhgj</h3>
-        <h3>{this.props.message.content}</h3>
         <ul>
           <li>{this.props.message.content}</li>
         </ul>
