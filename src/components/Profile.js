@@ -8,18 +8,17 @@ class Profile extends Component {
     }
   }
 
-  componentDidMont(){
-    const token = localStorage.getItem("jwt")
-    if (!token) {
+  componentDidMount(){
+  
+    if (localStorage.getItem("jwt") === null) {
       this.props.history.push('/Login');
-    } else {
-      console.log("hi")
-    }
+    } 
+      
   }
   
   render() {
-
     const currentUser = this.props.currentUser
+    
     return (
       <div>
       
