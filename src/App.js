@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Navbar from './components/Navbar'
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './components/Home'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
@@ -84,13 +84,19 @@ class App extends Component {
     //     })
     //   })
   }
+  handleLogout = () =>{
+    localStorage.clear("jwt")
+    this.setState({currentUser: {}})
+  }
+
+
 
   render(){
     return (
       <div>
-       <Navbar currentUser={this.state.currentUser}/>
+       <Navbar currentUser={this.state.currentUser} logOut={this.handleLogout}/>
        <Switch>
-       
+       <Route  exact path="/" component={Home}/>
        <Route path="/SignUp" render={routerProps => {
          return(
            <SignUp {...routerProps} handleLogin={this.handleLogin}/>
@@ -103,17 +109,22 @@ class App extends Component {
               <Login {...routerProps} handleLogin={this.handleLogin}/> 
                 );
                 }}/>
-        
+        {/* Render Profile if user is signed in else keep showing login page */}
+        {
+          Object.keys(this.state.currentUser).length !== 0 ? 
         <Route 
            path="/Profile" render={routerProps => {
             return(
               <Profile {...routerProps} currentUser={this.state.currentUser} />
             )
-          }}/>
+                }} /> : <Redirect to="/Login" />}
+        // }}/> : <Redirect to="/Login"/> }
+              {/* <Redirect to="/Login" /> */}
           <Route path="/" component={Home}/>
           <Route>
             <Conversation messages={this.state.messages} />
           </Route>
+          
        </Switch>
       </div>
     )
