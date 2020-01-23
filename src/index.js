@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ActionCableProvider } from "react-actioncable-provider";
 import './index.css';
+// import ActionCable from 'actioncable';
 import App from './App';
 import * as serviceWorker from './serviceWorker'; // might need to change this
-import { API_WS_ROOT } from "./constants/index"
+import { BrowserRouter as Router} from 'react-router-dom';
 
-ReactDOM.render(
-  <ActionCableProvider url={API_WS_ROOT}>
-    <App />
-  </ActionCableProvider>, 
-  document.getElementById('root'));
+// const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
+ReactDOM.render((
+  <div>
+  <Router>
+    
+   
+       <App />
+    
+    
+    </Router>
+    </div>),
+  document.getElementById('root')
+  );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
