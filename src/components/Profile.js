@@ -30,6 +30,15 @@ class Profile extends Component {
     }
       
   }
+
+  handleEditClick = (event) => {
+    event.preventDefault()
+    console.log(event)
+  }
+
+  handleDeleteClick = (event) => {
+    event.preventDefault()
+  }
   
   render() {
     
@@ -42,7 +51,7 @@ class Profile extends Component {
          <h3>{this.state.currentUser.username}</h3>
         <h3>{this.state.currentUser.bio}</h3>
          <h3>{this.state.currentUser.location}</h3>
-        <button>Edit</button>
+        <button onClick={this.handleEditClick}>Edit</button>
         <button>Delete</button>
         </center>
       </div>

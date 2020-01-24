@@ -38,13 +38,17 @@ class Conversation extends Component {
   // }
   handleSubmit = (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("jwt")
     fetch(API_ROOT + "/messages", {
       method: "POST",
-      headers: HEADERS,
+      headers: {
+        'Content-Type': 'application/json',
+         Accept: 'application/json',
+         Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
         content: this.state.message,
-        user_id: 1,
-        conversation_id: 1
+        user_id: this.props.currentUser.id,
       })
     })
     

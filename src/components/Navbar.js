@@ -14,6 +14,7 @@ class Navbar extends React.Component {
                 <Fragment>
                  <NavLink to="/Profile" exact>Profile</NavLink>
                  <NavLink to='/' exact onClick={this.props.logOut}>Logout</NavLink> 
+                 <NavLink to='/Conversation' exact>New Conversation</NavLink>
                  </Fragment> :
                  <Fragment>
                  <NavLink to="/SignUp" exact>SignUp</NavLink>

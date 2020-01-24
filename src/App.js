@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 import Navbar from './components/Navbar'
 
@@ -13,8 +13,10 @@ import Conversation from "./components/Conversation"
 class App extends Component {
   constructor(props) {
     super()
+    this.socket = undefined
     this.state = {
-      currentUser: {}
+      currentUser: {},
+      messages: [],
     };
   }
 
@@ -74,6 +76,10 @@ class App extends Component {
     this.setState({currentUser: currentUser})
   }
 
+  updateUser =(json) => {
+
+  }
+
   componentDidMount() {
     this.openWsConnection();
     // fetch('http://localhost:3000/messages')
@@ -97,33 +103,45 @@ class App extends Component {
        <Navbar currentUser={this.state.currentUser} logOut={this.handleLogout}/>
        <Switch>
        <Route  exact path="/" component={Home}/>
-       <Route path="/SignUp" render={routerProps => {
-         return(
-           <SignUp {...routerProps} handleLogin={this.handleLogin}/>
-         );
-       }}
-       />
+              <Route path="/SignUp" render={routerProps => {
+                return(
+                  <SignUp {...routerProps} handleLogin={this.handleLogin}/>
+                );
+              }}
+              />
        <Route 
            path="/Login" render={routerProps => {
             return(
               <Login {...routerProps} handleLogin={this.handleLogin}/> 
                 );
                 }}/>
-        {/* Render Profile if user is signed in else keep showing login page */}
+       
         {
           Object.keys(this.state.currentUser).length !== 0 ? 
-        <Route 
-           path="/Profile" render={routerProps => {
-            return(
-              <Profile {...routerProps} currentUser={this.state.currentUser} />
-            )
-                }} /> : <Redirect to="/Login" />}
-        // }}/> : <Redirect to="/Login"/> }
-              {/* <Redirect to="/Login" /> */}
-          <Route path="/" component={Home}/>
-          <Route>
-            <Conversation messages={this.state.messages} />
-          </Route>
+          <Fragment>
+            <Route 
+              path="/Profile" render={routerProps => {
+                return(
+                  <Profile {...routerProps} currentUser={this.state.currentUser} />
+                )
+                    }} />
+
+                    <Route  
+                    path="/Conversation" render={routerProps => {
+                      return(
+                        <Conversation {...routerProps} messages={this.state.messages} currentUser={this.state.currentUser}/>
+                      )
+                    }} />
+                     </Fragment>
+                     
+                
+                :<Fragment> <Redirect to="/Login" />
+                </Fragment>}
+      
+              
+         
+          
+          
           
        </Switch>
       </div>
