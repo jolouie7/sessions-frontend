@@ -31,13 +31,14 @@ class App extends Component {
       let msg = {
         command: 'subscribe',
         identifier: JSON.stringify({
-          channel: "MessageChannel"
+          channel: "MessagesChannel"
         })
       };
       this.socket.send(JSON.stringify(msg))
     }
 
     this.socket.onmessage = (event) => {
+      console.log(event.data);
       // build out a proper conditional statement that differentiates between
       // true messages
       const data = JSON.parse(event.data);
@@ -49,7 +50,7 @@ class App extends Component {
         console.log('I"m first')
         this.socket.send(JSON.stringify({
           "command": "message",
-          "identifier": JSON.stringify({ channel: 'MessageChannel' }),
+          "identifier": JSON.stringify({ channel: 'MessagesChannel' }),
           "data": JSON.stringify({
             message: 'hello-server',
             action: 'sync_reading'

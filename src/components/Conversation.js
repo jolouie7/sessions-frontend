@@ -39,6 +39,7 @@ class Conversation extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem("jwt")
+    console.log(this.props.currentUser.id)
     fetch(API_ROOT + "/messages", {
       method: "POST",
       headers: {
@@ -49,6 +50,7 @@ class Conversation extends Component {
       body: JSON.stringify({
         content: this.state.message,
         user_id: this.props.currentUser.id,
+        conversation_id: 1
       })
     })
     
